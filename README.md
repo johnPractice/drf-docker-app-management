@@ -1,0 +1,1 @@
+# drf-docker-app-management
