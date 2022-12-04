@@ -3,6 +3,12 @@ from docker_app.models import ContainerizedApp
 from utils.randome_name import generate_randome_app_name
 
 
+class RetriveContainerInfo(serializers.Serializer):
+    id = serializers.CharField()
+    status = serializers.CharField()
+    name = serializers.CharField()
+    
+
 class CreateContainerizedAppSerializer(serializers.Serializer):
     commands = serializers.ListField(child=serializers.CharField())
     envs = serializers.ListField(child=serializers.CharField())
