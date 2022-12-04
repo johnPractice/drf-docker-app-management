@@ -1,9 +1,12 @@
 from django.urls import include, path
-from rest_framework import routers
+from docker_app.routers import DockerAppStatusViewset
+from rest_framework.routers import DefaultRouter
 
-router = routers.DefaultRouter()
 
+router = DefaultRouter()
+router.register(r'dockerize', DockerAppStatusViewset,
+                basename='docker app')
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
-urlpatterns = []
+urlpatterns = router.urls
