@@ -2,10 +2,10 @@ from utils.randome_name import generate_randome_app_name
 
 
 class Docker:
-    def __init__(self, envs: list[str], commands: list[str], image: str, container_name: str = generate_randome_app_name()) -> None:
+    def __init__(self, envs: list[str], commands: list[str], image_name: str, container_name: str = generate_randome_app_name()) -> None:
         self.__envs: dict[str, str] = self.__prepare_envs(envs)
         self.__commands: list[str] = commands
-        self.__image: str = image
+        self.__image: str = image_name
         self.__container_name: str = container_name
 
     def __prepare_envs(self, input_envs: list[str] = []) -> dict[str, str]:
@@ -41,6 +41,17 @@ class Docker:
 
     def get_container_name(self) -> str:
         return self.__container_name
+
+    def get_str_envs(self) -> str:
+        """_summary_
+        Return envs as single string
+        Returns:
+            str: string env
+        """
+        envs: str = ''
+        for _key, _value in self.__envs.items():
+            envs += f'-e {_key}={_value} '
+        return envs
 
     def get_envs(self) -> dict[str, str]:
         """_summary_
