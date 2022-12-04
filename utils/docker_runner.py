@@ -17,3 +17,13 @@ class DockerRunner:
             name=self.docker_object.get_container_name(),
             detach=True)
         print('run container', container.id)
+
+    @staticmethod
+    def get_all_container_info(all: bool = True):
+        result: list[dict[str, str]] = list()
+        client = docker.from_env()
+        all_containers = client.containers.list(all=all)
+        for container in all_containers:
+            result.append(
+                {'name': container.name, 'status': container.status, 'id': container.id})
+        return result
