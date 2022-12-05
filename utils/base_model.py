@@ -12,5 +12,12 @@ class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
 
+    @classmethod
+    def retrive_by_id(cls: models.Model, id: uuid.uuid4):
+        try:
+            return cls.objects.get(id=id)
+        except cls.DoesNotExist:
+            return None
+
     class Meta:
         abstract = True
