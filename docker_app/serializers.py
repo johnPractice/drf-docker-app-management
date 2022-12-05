@@ -13,7 +13,7 @@ class RetriveContainerInfo(serializers.Serializer):
 class CreateContainerizedAppSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContainerizedApp
-        fields = '__all__'
+        exclude = ('is_deleted', 'updated_at', 'created_at')
 
 
 class InputContainerizedAppSerializer(serializers.Serializer):
@@ -27,7 +27,9 @@ class InputContainerizedAppSerializer(serializers.Serializer):
         fields = '__all__'
 
 
-class RetriveContainerizedAppSerializer(BaseModelSerializer):
+class RetriveContainerizedAppSerializer(serializers.ModelSerializer):
     # for better perfomance we can define every field with type
-    def set_model(self, model=ContainerizedApp):
-        return super().set_model(model)
+
+    class Meta:
+        model = ContainerizedApp
+        exclude = ('is_deleted', 'updated_at', 'created_at')
