@@ -1,8 +1,7 @@
-from rest_framework import generics, mixins, status, viewsets
-from rest_framework.views import APIView
+from rest_framework import status, viewsets
 from docker_app.models import ContainerizedApp
 from docker_app.serializers import CreateContainerizedAppSerializer, RetriveContainerizedAppSerializer,\
-    RetriveContainerInfo, InputContainerizedAppSerializer
+    RetriveContainerInfo, InputCreateContainerizedAppSerializer
 from rest_framework.response import Response
 from utils.docker import Docker
 from utils.docker_runner import DockerRunner
@@ -25,7 +24,7 @@ class DockerAppStatusViewset(viewsets.ViewSet):
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
     def create(self, request):
-        input_serializer = InputContainerizedAppSerializer(
+        input_serializer = InputCreateContainerizedAppSerializer(
             data=request.data)
         input_serializer.is_valid(raise_exception=True)
         d = Docker(**input_serializer.data)
@@ -38,3 +37,22 @@ class DockerAppStatusViewset(viewsets.ViewSet):
         response_serializer = RetriveContainerizedAppSerializer(
             container_db_instance)
         return Response(data=response_serializer.data, status=status.HTTP_201_CREATED)
+
+    def partial_update(self, request, pk=None):
+        container_db_instance: ContainerizedApp = ContainerizedApp.retrive_by_id(
+            id=pk)
+        update_container_serializer = RetriveContainerizedAppSerializer(
+            instance=container_db_instance, data=request.data, partial=True)
+        update_container_serializer.is_valid(raise_exception=True)
+        # update_container_serializer.save()
+        DockerRunner.update_container(
+            container_name=container_db_instance.container_name)
+        return Response(data=update_container_serializer.data, status=status.HTTP_200_OK)
+
+    def destroy(self, request, pk=None):
+        container_db_instance: ContainerizedApp = ContainerizedApp.retrive_by_id(
+            id=pk)
+        DockerRunner.remove_container(
+            container_name=container_db_instance.container_name)
+        ContainerizedApp.delete_item(db_instancs=container_db_instance)
+        return Response(status=status.HTTP_200_OK)
