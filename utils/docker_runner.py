@@ -45,17 +45,20 @@ class DockerRunner:
     @staticmethod
     def retive_container_with_name(container_name: str) -> Optional[Container]:
         """_summary_
-
+        Get Container with name
         Args:
-            container_name (str): _description_
+            container_name (str): name of container
+        Raises:
+            NotFoundItem: _description_
+            DockerApiException: _description_
 
         Returns:
-            Optional[Container]: _description_
+            Optional[Container]: Container Object
+
         """
         client = docker.from_env()
         try:
             container: Container = client.containers.get(container_name)
-            print('here', container)
             return container
 
         except docker.errors.NotFound:
@@ -64,11 +67,16 @@ class DockerRunner:
             raise DockerApiException()
 
     @staticmethod
-    def update_container(container_name: str):
+    def update_container(container_name: str) -> None:
         container = DockerRunner.retive_container_with_name(container_name)
 
     @staticmethod
-    def remove_container(container_name: str):
+    def remove_container(container_name: str) -> None:
+        """_summary_
+        Stop and Remove Container
+        Args:
+            container_name (str): name of container
+        """
         container = DockerRunner.retive_container_with_name(container_name)
         container.stop()
         container.remove()
