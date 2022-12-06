@@ -1,7 +1,7 @@
 from django.db import models
 import uuid
 from utils.http_exception import ServiceException
-import logging
+from hamravesh.settings import logger
 
 
 class BaseModel(models.Model):
@@ -27,7 +27,7 @@ class BaseModel(models.Model):
             db_instancs.is_deleted = True
             db_instancs.save()
         except Exception as e:
-            logging.error(e)
+            logger.error(e)
             raise ServiceException()
 
     class Meta:
