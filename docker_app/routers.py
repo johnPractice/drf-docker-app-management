@@ -9,7 +9,7 @@ from utils.docker_runner import DockerRunner
 
 class DockerAppStatusViewset(viewsets.ViewSet):
     def retrieve(self, reques, pk=None):
-        container_db_instance = ContainerizedApp.retrive_by_id(id=pk)
+        container_db_instance = ContainerizedApp.get_with_id_or_name(pk=pk)
         retrive_container_serializer = RetriveContainerizedAppSerializer(
             instance=container_db_instance)
         return Response(data=retrive_container_serializer.data, status=status.HTTP_200_OK)
