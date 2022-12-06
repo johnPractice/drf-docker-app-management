@@ -5,7 +5,7 @@ from utils.base_serializer import BaseModelSerializer
 
 
 class RetriveContainerInfo(serializers.Serializer):
-    id = serializers.CharField()
+    container_id = serializers.CharField()
     status = serializers.CharField()
     name = serializers.CharField()
 
@@ -16,7 +16,7 @@ class CreateContainerizedAppSerializer(serializers.ModelSerializer):
         exclude = ('is_deleted', 'updated_at', 'created_at')
 
 
-class InputContainerizedAppSerializer(serializers.Serializer):
+class InputCreateContainerizedAppSerializer(serializers.Serializer):
     commands = serializers.ListField(child=serializers.CharField())
     envs = serializers.ListField(child=serializers.CharField())
     container_name = serializers.CharField(
