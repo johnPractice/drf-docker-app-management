@@ -47,3 +47,7 @@ for more work can do
 <li>Add payment logic and calculate coast as <b>"pay as you go"</b>.</li>
 <li>For big appliction should seperate big file into small files (ex : if routers are bigger than this should seperate it into multiple files)</li>
 </ul>
+
+
+## Assumptions
+I assume that for every user have isolate envoironment that can run containers. (for example we can use Vgrant to create new  VM for  user and only on own VM run containers)
